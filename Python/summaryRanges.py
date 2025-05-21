@@ -1,0 +1,29 @@
+class Solution(object):
+    def summaryRanges(self, nums):
+        res = []
+        if not nums:
+            return res
+        start = nums[0]
+        end = nums[0]
+        for n in nums[1:]:
+            if n == end + 1:
+                end = n
+            else:
+                if start == end:
+                    res.append(str(start))
+                else:
+                    res.append(str(start) + "->" + str(end))
+                start = n
+                end = n
+        if start == end:
+            res.append(str(start))
+        else:
+            res.append(str(start) + "->" + str(end))
+        return res
+    
+# Example usage:
+if __name__ == "__main__":
+    solution = Solution()
+    nums = [0, 1, 2, 4, 5, 7]
+    ranges = solution.summaryRanges(nums)
+    print("Summary ranges:", ranges)
