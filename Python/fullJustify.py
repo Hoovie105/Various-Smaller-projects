@@ -1,31 +1,15 @@
-class Solution(object):
+class Solution:
     def fullJustify(self, words, maxWidth):
-         result = []
-         currline, length = [], 0
-         i = 0
-
-         while i < len(words):
-              if length + len(currline) + len(words[i]) > maxWidth:
-                   extraspaces = maxWidth - length
-                   spaces = extraspaces // max(1, len(currline) - 1)
-                   remainder = extraspaces % max(1, len(currline) - 1)
-
-                   for j in range(len(currline) - 1):
-                        currline[j] += ' ' * spaces
-                        if remainder:
-                                currline[j] += ' '
-                                remainder -= 1
-                   result.append("".join(currline))
-                   currline, length = [], 0
-
-              currline.append(words[i])
-              length += len(words[i])
-              i += 1
-
-         last_line = " ".join(currline)
-         trail_spaces = maxWidth - len(last_line)
-         result.append(last_line + " " * trail_spaces)
-         return result
+        res, cur, num_of_letters = [], [], 0
+        for w in words:
+            if num_of_letters + len(w) + len(cur) > maxWidth:
+                for i in range(maxWidth - num_of_letters):
+                    cur[i % (len(cur) - 1 or 1)] += ' '
+                res.append(''.join(cur))
+                cur, num_of_letters = [], 0
+            cur += [w]
+            num_of_letters += len(w)
+        return res + [' '.join(cur).ljust(maxWidth)]
 
 if __name__ == "__main__":
         words = ["This", "is", "an", "example", "of", "text", "justification."]
